@@ -119,11 +119,13 @@ func (a *adminDB) NewSignup(ctx context.Context, username string, reason string,
 			return nil, err
 		}
 
+		locked := false
 		acct = &gtsmodel.Account{
 			ID:                    accountID,
 			Username:              username,
 			DisplayName:           username,
 			Reason:                reason,
+			Locked:                &locked,
 			Privacy:               gtsmodel.VisibilityDefault,
 			URL:                   accountURIs.UserURL,
 			PrivateKey:            key,
