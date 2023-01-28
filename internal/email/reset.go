@@ -25,7 +25,7 @@ import (
 
 const (
 	resetTemplate = "email_reset_text.tmpl"
-	resetSubject  = "GoToSocial Password Reset"
+	resetSubject  = "Bessage Password Reset"
 )
 
 func (s *sender) SendResetEmail(toAddress string, data ResetData) error {
