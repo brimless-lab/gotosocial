@@ -25,7 +25,7 @@ import (
 
 // Gzip returns a gzip gin middleware using default compression.
 func Gzip() gin.HandlerFunc {
-	const enabled = true
+	const enabled = false
 
 	if !enabled {
 		// use noop middleware if gzip is disabled
