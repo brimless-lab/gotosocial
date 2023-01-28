@@ -119,14 +119,12 @@ func (p *processor) ConfirmEmail(ctx context.Context, token string) (*gtsmodel.U
 	}
 
 	// mark the user's email address as confirmed + remove the unconfirmed address and the token
-	updatingColumns := []string{"email", "unconfirmed_email", "confirmed_at", "confirmation_token", "updated_at"}
+	updatingColumns := []string{"email", "unconfirmed_email", "confirmed_at", "confirmation_token"}
 	user.Email = user.UnconfirmedEmail
 	user.UnconfirmedEmail = ""
 	user.ConfirmedAt = time.Now()
 	user.ConfirmationToken = ""
-	user.UpdatedAt = time.Now()
-
-	if err := p.db.UpdateByID(ctx, user, user.ID, updatingColumns...); err != nil {
+	if err := p.db.UpdateUser(ctx, user, updatingColumns...); err != nil {
 		return nil, gtserror.NewErrorInternalError(err)
 	}
 
