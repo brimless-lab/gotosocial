@@ -82,7 +82,7 @@ func TokenCheck(dbConn db.DB, validateBearerToken func(r *http.Request) (oauth2.
 			}
 
 			if user.ConfirmedAt.IsZero() {
-				log.Warnf("authenticated user %s has never confirmed thier email address", userID)
+				log.Warnf("authenticated user %s has never confirmed their email address", userID)
 				return
 			}
 
