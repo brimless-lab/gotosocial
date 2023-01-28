@@ -21,6 +21,7 @@ package email
 import (
 	"bytes"
 	"net/smtp"
+	"strings"
 )
 
 const (
@@ -39,7 +40,11 @@ func (s *sender) SendResetEmail(toAddress string, data ResetData) error {
 	if err != nil {
 		return err
 	}
-	return smtp.SendMail(s.hostAddress, s.auth, s.from, []string{toAddress}, msg)
+	if strings.HasSuffix(s.hostAddress, ":465") {
+		return SendMail(s.hostAddress, s.auth, s.from, []string{toAddress}, msg)
+	} else {
+		return smtp.SendMail(s.hostAddress, s.auth, s.from, []string{toAddress}, msg)
+	}
 }
 
 // ResetData represents data passed into the reset email address template.
