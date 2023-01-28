@@ -132,7 +132,7 @@ func (c *converter) ASRepresentationToAccount(ctx context.Context, accountable a
 	acct.HideCollections = &hideCollections
 
 	// locked aka manuallyApprovesFollowers
-	locked := true
+	locked := false
 	acct.Locked = &locked // assume locked by default
 	maf := accountable.GetActivityStreamsManuallyApprovesFollowers()
 	if maf != nil && maf.IsXMLSchemaBoolean() {

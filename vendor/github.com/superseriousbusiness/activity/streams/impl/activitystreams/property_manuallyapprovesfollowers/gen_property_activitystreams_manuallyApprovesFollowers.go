@@ -4,9 +4,10 @@ package propertymanuallyapprovesfollowers
 
 import (
 	"fmt"
+	"net/url"
+
 	boolean "github.com/superseriousbusiness/activity/streams/values/boolean"
 	vocab "github.com/superseriousbusiness/activity/streams/vocab"
-	"net/url"
 )
 
 // ActivityStreamsManuallyApprovesFollowersProperty is the functional property
@@ -51,7 +52,7 @@ func DeserializeManuallyApprovesFollowersProperty(m map[string]interface{}, alia
 		if v, err := boolean.DeserializeBoolean(i); err == nil {
 			this := &ActivityStreamsManuallyApprovesFollowersProperty{
 				alias:                  alias,
-				hasBooleanMember:       true,
+				hasBooleanMember:       false,
 				xmlschemaBooleanMember: v,
 			}
 			return this, nil
