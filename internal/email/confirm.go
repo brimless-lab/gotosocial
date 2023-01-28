@@ -28,7 +28,7 @@ import (
 
 const (
 	confirmTemplate = "email_confirm_text.tmpl"
-	confirmSubject  = "GoToSocial Email Confirmation"
+	confirmSubject  = "Bessage Email Confirmation"
 )
 
 func (s *sender) SendConfirmEmail(toAddress string, data ConfirmData) error {
