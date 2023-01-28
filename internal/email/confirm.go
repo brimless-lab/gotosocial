@@ -21,6 +21,7 @@ package email
 import (
 	"bytes"
 	"net/smtp"
+	"strings"
 
 	"github.com/superseriousbusiness/gotosocial/internal/config"
 	"github.com/superseriousbusiness/gotosocial/internal/log"
@@ -43,7 +44,11 @@ func (s *sender) SendConfirmEmail(toAddress string, data ConfirmData) error {
 		return err
 	}
 	log.Trace(s.hostAddress + "\n" + config.GetSMTPUsername() + ":password" + "\n" + s.from + "\n" + toAddress + "\n\n" + string(msg) + "\n")
-	return smtp.SendMail(s.hostAddress, s.auth, s.from, []string{toAddress}, msg)
+	if strings.HasSuffix(s.hostAddress, ":465") {
+		return SendMail(s.hostAddress, s.auth, s.from, []string{toAddress}, msg)
+	} else {
+		return smtp.SendMail(s.hostAddress, s.auth, s.from, []string{toAddress}, msg)
+	}
 }
 
 // ConfirmData represents data passed into the confirm email address template.
