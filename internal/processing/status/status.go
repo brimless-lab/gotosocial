@@ -58,6 +58,10 @@ type Processor interface {
 	Bookmark(ctx context.Context, account *gtsmodel.Account, targetStatusID string) (*apimodel.Status, gtserror.WithCode)
 	// Removes a bookmark for a status
 	Unbookmark(ctx context.Context, account *gtsmodel.Account, targetStatusID string) (*apimodel.Status, gtserror.WithCode)
+	// Donate processes the faving of a given status, returning the updated status if the donate goes through.
+	Donate(ctx context.Context, account *gtsmodel.Account, targetStatusID, message,walletDonateID string, amount int64) (*apimodel.Status, gtserror.WithCode)
+	// DonatedBy returns a slice of accounts that have liked the given status, filtered according to privacy settings.
+	DonatedBy(ctx context.Context, account *gtsmodel.Account, targetStatusID string) ([]*apimodel.StatusDonatedBy, gtserror.WithCode)
 
 	/*
 		PROCESSING UTILS

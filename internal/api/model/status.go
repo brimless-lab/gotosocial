@@ -61,10 +61,16 @@ type Status struct {
 	ReblogsCount int `json:"reblogs_count"`
 	// Number of favourites/likes this status has received, according to our instance.
 	FavouritesCount int `json:"favourites_count"`
+	// Number of donates this status has received, according to our instance.
+	DonatesCount int `json:"donates_count"`
+	// Amount of donates this status has received, according to our instance.
+	DonatesAmount int64 `json:"donates_amount"`
 	// This status has been favourited by the account viewing it.
 	Favourited bool `json:"favourited"`
 	// This status has been boosted/reblogged by the account viewing it.
 	Reblogged bool `json:"reblogged"`
+	// This status has been donated by the account viewing it.
+	Donated bool `json:"donated"`
 	// Replies to this status have been muted by the account viewing it.
 	Muted bool `json:"muted"`
 	// This status has been bookmarked by the account viewing it.
@@ -225,6 +231,37 @@ type AdvancedVisibilityFlagsForm struct {
 	Replyable *bool `form:"replyable" json:"replyable" xml:"replyable"`
 	// This status can be liked/faved.
 	Likeable *bool `form:"likeable" json:"likeable" xml:"likeable"`
+}
+
+// StatusDonateForm models status donation parameters.
+//
+// swagger:model statusDonateForm
+type StatusDonateForm struct {
+	// Amount of donate.
+	// in: formData
+	Amount int64 `form:"amount" json:"amount" xml:"amount"`
+	// Text message of the donate.
+	// in: formData
+	Message        string `form:"message" json:"message" xml:"message"`
+	WalletDonateID string `form:"wallet_donate_id" json:"wallet_donate_id" xml:"wallet_donate_id"`
+}
+
+// StatusDonatedBy models a donate by a account.
+//
+// swagger:model statusDonatedBy
+type StatusDonatedBy struct {
+	// The donate id.
+	// example: 01FBVD42CQ3ZEEVMW180SBX03B
+	ID string `json:"id"`
+	// Amount of donate.
+	Amount int64 `json:"amount"`
+	// Text message of the donate.
+	Message string `json:"message"`
+	// When the account was created (ISO 8601 Datetime).
+	// example: 2021-07-30T09:20:25+00:00
+	CreatedAt string `json:"created_at"`
+	// The account that authored this status.
+	Account *Account `json:"account"`
 }
 
 // StatusFormat is the format in which to parse the submitted status.

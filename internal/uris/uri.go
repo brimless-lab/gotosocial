@@ -34,6 +34,7 @@ const (
 	FollowersPath    = "followers"     // FollowersPath represents the activitypub followers location
 	FollowingPath    = "following"     // FollowingPath represents the activitypub following location
 	LikedPath        = "liked"         // LikedPath represents the activitypub liked location
+	DonatedPath      = "donated"       // DonatedPath represents the activitypub donated location
 	CollectionsPath  = "collections"   // CollectionsPath represents the activitypub collections location
 	FeaturedPath     = "featured"      // FeaturedPath represents the activitypub featured location
 	PublicKeyPath    = "main-key"      // PublicKeyPath is for serving an account's public key
@@ -89,6 +90,14 @@ func GenerateURIForLike(username string, thisFavedID string) string {
 	protocol := config.GetProtocol()
 	host := config.GetHost()
 	return fmt.Sprintf("%s://%s/%s/%s/%s/%s", protocol, host, UsersPath, username, LikedPath, thisFavedID)
+}
+
+// GenerateURIForDonate returns the AP URI for a new donate/fave -- something donate:
+// https://example.org/users/whatever_user/donated/01F7XTH1QGBAPMGF49WJZ91XGC
+func GenerateURIForDonate(username string, thisFavedID string) string {
+	protocol := config.GetProtocol()
+	host := config.GetHost()
+	return fmt.Sprintf("%s://%s/%s/%s/%s/%s", protocol, host, UsersPath, username, DonatedPath, thisFavedID)
 }
 
 // GenerateURIForUpdate returns the AP URI for a new update activity -- something like:

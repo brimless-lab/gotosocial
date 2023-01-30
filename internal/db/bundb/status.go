@@ -56,6 +56,15 @@ func (s *statusDB) newFaveQ(faves interface{}) *bun.SelectQuery {
 		Relation("Status")
 }
 
+func (s *statusDB) newDonateQ(donates interface{}) *bun.SelectQuery {
+	return s.conn.
+		NewSelect().
+		Model(donates).
+		Relation("Account").
+		Relation("TargetAccount").
+		Relation("Status")
+}
+
 func (s *statusDB) GetStatusByID(ctx context.Context, id string) (*gtsmodel.Status, db.Error) {
 	return s.getStatus(
 		ctx,
@@ -480,6 +489,27 @@ func (s *statusDB) IsStatusFavedBy(ctx context.Context, status *gtsmodel.Status,
 	return s.conn.Exists(ctx, q)
 }
 
+func (s *statusDB) SumStatusDonates(ctx context.Context, status *gtsmodel.Status) (num int, amount int64, err db.Error) {
+	err = s.conn.
+		NewSelect().
+		ColumnExpr("count(?)", bun.Ident("amount")).
+		ColumnExpr("sum(?)", bun.Ident("amount")).
+		TableExpr("? AS ?", bun.Ident("status_donates"), bun.Ident("status_donate")).
+		Where("? = ?", bun.Ident("status_donate.status_id"), status.ID).
+		Limit(1).Scan(ctx, &num, &amount)
+	return
+}
+
+func (s *statusDB) IsStatusDonatedBy(ctx context.Context, status *gtsmodel.Status, accountID string) (bool, db.Error) {
+	q := s.conn.
+		NewSelect().
+		TableExpr("? AS ?", bun.Ident("status_donates"), bun.Ident("status_donate")).
+		Where("? = ?", bun.Ident("status_donate.status_id"), status.ID).
+		Where("? = ?", bun.Ident("status_donate.account_id"), accountID)
+
+	return s.conn.Exists(ctx, q)
+}
+
 func (s *statusDB) IsStatusRebloggedBy(ctx context.Context, status *gtsmodel.Status, accountID string) (bool, db.Error) {
 	q := s.conn.
 		NewSelect().
@@ -535,4 +565,18 @@ func (s *statusDB) GetStatusReblogs(ctx context.Context, status *gtsmodel.Status
 		return nil, s.conn.ProcessError(err)
 	}
 	return reblogs, nil
+}
+
+func (s *statusDB) GetStatusDonates(ctx context.Context, status *gtsmodel.Status) ([]*gtsmodel.StatusDonate, db.Error) {
+	donates := []*gtsmodel.StatusDonate{}
+
+	q := s.
+		newDonateQ(&donates).
+		Where("? = ?", bun.Ident("status_donate.status_id"), status.ID)
+
+	if err := q.Scan(ctx); err != nil {
+		return nil, s.conn.ProcessError(err)
+	}
+
+	return donates, nil
 }

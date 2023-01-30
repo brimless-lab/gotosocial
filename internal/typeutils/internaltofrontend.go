@@ -518,6 +518,11 @@ func (c *converter) StatusToAPIStatus(ctx context.Context, s *gtsmodel.Status, r
 		return nil, fmt.Errorf("error counting faves: %s", err)
 	}
 
+	donatesCount, donatesAmount, err := c.db.SumStatusDonates(ctx, s)
+	if err != nil {
+		return nil, fmt.Errorf("error counting donates: %s", err)
+	}
+
 	var apiRebloggedStatus *apimodel.Status
 	if s.BoostOfID != "" {
 		// the boosted status might have been set on this struct already so check first before doing db calls
@@ -624,6 +629,9 @@ func (c *converter) StatusToAPIStatus(ctx context.Context, s *gtsmodel.Status, r
 		RepliesCount:       repliesCount,
 		ReblogsCount:       reblogsCount,
 		FavouritesCount:    favesCount,
+		DonatesCount:       donatesCount,
+		DonatesAmount:      donatesAmount,
+		Donated:            interacts.Donated,
 		Favourited:         interacts.Faved,
 		Bookmarked:         interacts.Bookmarked,
 		Muted:              interacts.Muted,

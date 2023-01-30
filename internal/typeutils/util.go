@@ -29,6 +29,7 @@ import (
 
 type statusInteractions struct {
 	Faved      bool
+	Donated    bool
 	Muted      bool
 	Bookmarked bool
 	Reblogged  bool
@@ -43,6 +44,12 @@ func (c *converter) interactionsWithStatusForAccount(ctx context.Context, s *gts
 			return nil, fmt.Errorf("error checking if requesting account has faved status: %s", err)
 		}
 		si.Faved = faved
+
+		donated, err := c.db.IsStatusDonatedBy(ctx, s, requestingAccount.ID)
+		if err != nil {
+			return nil, fmt.Errorf("error checking if requesting account has donated status: %s", err)
+		}
+		si.Donated = donated
 
 		reblogged, err := c.db.IsStatusRebloggedBy(ctx, s, requestingAccount.ID)
 		if err != nil {

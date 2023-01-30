@@ -56,6 +56,9 @@ type Status interface {
 	// CountStatusFaves returns the amount of faves/likes recorded for a status, or an error if something goes wrong
 	CountStatusFaves(ctx context.Context, status *gtsmodel.Status) (int, Error)
 
+	// SumStatusDonates returns the amount of donates recorded for a status, or an error if something goes wrong
+	SumStatusDonates(ctx context.Context, status *gtsmodel.Status) (int, int64, Error)
+
 	// GetStatusParents gets the parent statuses of a given status.
 	//
 	// If onlyDirect is true, only the immediate parent will be returned.
@@ -68,6 +71,9 @@ type Status interface {
 
 	// IsStatusFavedBy checks if a given status has been faved by a given account ID
 	IsStatusFavedBy(ctx context.Context, status *gtsmodel.Status, accountID string) (bool, Error)
+
+	// IsStatusDonatedBy checks if a given status has been donated by a given account ID
+	IsStatusDonatedBy(ctx context.Context, status *gtsmodel.Status, accountID string) (bool, Error)
 
 	// IsStatusRebloggedBy checks if a given status has been reblogged/boosted by a given account ID
 	IsStatusRebloggedBy(ctx context.Context, status *gtsmodel.Status, accountID string) (bool, Error)
@@ -85,4 +91,8 @@ type Status interface {
 	// GetStatusReblogs returns a slice of statuses that are a boost/reblog of the given status.
 	// This slice will be unfiltered, not taking account of blocks and whatnot, so filter it before serving it back to a user.
 	GetStatusReblogs(ctx context.Context, status *gtsmodel.Status) ([]*gtsmodel.Status, Error)
+
+	// GetStatusDonates returns a slice of donates of the given status.
+	// This slice will be unfiltered, not taking account of blocks and whatnot, so filter it before serving it back to a user.
+	GetStatusDonates(ctx context.Context, status *gtsmodel.Status) ([]*gtsmodel.StatusDonate, Error)
 }

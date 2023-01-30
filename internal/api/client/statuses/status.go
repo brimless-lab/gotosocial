@@ -41,6 +41,11 @@ const (
 	// UnfavouritePath is for removing a fave from a status
 	UnfavouritePath = BasePathWithID + "/unfavourite"
 
+	// DonatedPath is for seeing who's donated a given status
+	DonatedPath = BasePathWithID + "/donated_by"
+	// DonatePath is for posting a donate on a status
+	DonatePath = BasePathWithID + "/donate"
+
 	// RebloggedPath is for seeing who's boosted a given status
 	RebloggedPath = BasePathWithID + "/reblogged_by"
 	// ReblogPath is for boosting/reblogging a given status
@@ -87,6 +92,10 @@ func (m *Module) Route(attachHandler func(method string, path string, f ...gin.H
 	attachHandler(http.MethodPost, FavouritePath, m.StatusFavePOSTHandler)
 	attachHandler(http.MethodPost, UnfavouritePath, m.StatusUnfavePOSTHandler)
 	attachHandler(http.MethodGet, FavouritedPath, m.StatusFavedByGETHandler)
+
+	// donate stuff
+	attachHandler(http.MethodPost, DonatePath, m.StatusDonatePOSTHandler)
+	attachHandler(http.MethodGet, DonatedPath, m.StatusDonatedByGETHandler)
 
 	// reblog stuff
 	attachHandler(http.MethodPost, ReblogPath, m.StatusBoostPOSTHandler)

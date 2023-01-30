@@ -54,6 +54,14 @@ func (p *processor) StatusFavedBy(ctx context.Context, authed *oauth.Auth, targe
 	return p.statusProcessor.FavedBy(ctx, authed.Account, targetStatusID)
 }
 
+func (p *processor) StatusDonate(ctx context.Context, authed *oauth.Auth, targetStatusID, message, walletDonateID string, amount int64) (*apimodel.Status, gtserror.WithCode) {
+	return p.statusProcessor.Donate(ctx, authed.Account, targetStatusID, message, walletDonateID, amount)
+}
+
+func (p *processor) StatusDonatedBy(ctx context.Context, authed *oauth.Auth, targetStatusID string) ([]*apimodel.StatusDonatedBy, gtserror.WithCode) {
+	return p.statusProcessor.DonatedBy(ctx, authed.Account, targetStatusID)
+}
+
 func (p *processor) StatusGet(ctx context.Context, authed *oauth.Auth, targetStatusID string) (*apimodel.Status, gtserror.WithCode) {
 	return p.statusProcessor.Get(ctx, authed.Account, targetStatusID)
 }

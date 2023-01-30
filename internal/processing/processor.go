@@ -222,6 +222,11 @@ type Processor interface {
 	// StatusUnbookmark removes a bookmark for a status
 	StatusUnbookmark(ctx context.Context, authed *oauth.Auth, targetStatusID string) (*apimodel.Status, gtserror.WithCode)
 
+	// StatusDonate processes the faving of a given status, returning the updated status if the donate goes through.
+	StatusDonate(ctx context.Context, authed *oauth.Auth, targetStatusID, message, walletDonateID string, amount int64) (*apimodel.Status, gtserror.WithCode)
+	// StatusDonatedBy returns a slice of accounts that have liked the given status, filtered according to privacy settings.
+	StatusDonatedBy(ctx context.Context, authed *oauth.Auth, targetStatusID string) ([]*apimodel.StatusDonatedBy, gtserror.WithCode)
+
 	// HomeTimelineGet returns statuses from the home timeline, with the given filters/parameters.
 	HomeTimelineGet(ctx context.Context, authed *oauth.Auth, maxID string, sinceID string, minID string, limit int, local bool) (*apimodel.PageableResponse, gtserror.WithCode)
 	// PublicTimelineGet returns statuses from the public/local timeline, with the given filters/parameters.
