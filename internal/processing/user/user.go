@@ -36,6 +36,10 @@ type Processor interface {
 	SendConfirmEmail(ctx context.Context, user *gtsmodel.User, username string) error
 	// ConfirmEmail confirms an email address using the given token.
 	ConfirmEmail(ctx context.Context, token string) (*gtsmodel.User, gtserror.WithCode)
+	// 发送重置密码的邮件
+	ResetPasswordEmail(ctx context.Context, email string) (*gtsmodel.User, gtserror.WithCode)
+	// 验证邮箱和验证码
+	VerifyResetPasswordToken(ctx context.Context, email string, token string) gtserror.WithCode
 }
 
 type processor struct {

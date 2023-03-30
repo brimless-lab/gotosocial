@@ -245,6 +245,11 @@ type Processor interface {
 	// The user belonging to the confirmed email is also returned.
 	UserConfirmEmail(ctx context.Context, token string) (*gtsmodel.User, gtserror.WithCode)
 
+	// 重置 password
+	UserResetPasswordEmail(ctx context.Context, email string) (*gtsmodel.User, gtserror.WithCode)
+	// 验证 reset_password_token
+	UserVerifyResetPasswordToken(ctx context.Context, email string, token string) gtserror.WithCode
+
 	// ReportsGet returns reports created by the given user.
 	ReportsGet(ctx context.Context, authed *oauth.Auth, resolved *bool, targetAccountID string, maxID string, sinceID string, minID string, limit int) (*apimodel.PageableResponse, gtserror.WithCode)
 	// ReportGet returns one report created by the given user.

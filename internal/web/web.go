@@ -33,6 +33,7 @@ import (
 
 const (
 	confirmEmailPath   = "/" + uris.ConfirmEmailPath
+	resetPasswordPath  = "/" + uris.ResetPasswordEmailPath
 	profilePath        = "/@:" + usernameKey
 	customCSSPath      = profilePath + "/custom.css"
 	rssFeedPath        = profilePath + "/feed.rss"
@@ -45,6 +46,7 @@ const (
 	adminPanelPath     = settingsPathPrefix + "/admin"
 
 	tokenParam  = "token"
+	emailParam  = "email"
 	usernameKey = "username"
 	statusIDKey = "status"
 
@@ -101,6 +103,8 @@ func (m *Module) Route(r router.Router, mi ...gin.HandlerFunc) {
 	r.AttachHandler(http.MethodGet, robotsPath, m.robotsGETHandler)
 
 	r.AttachHandler(http.MethodGet, domainBlockListPath, m.domainBlockListGETHandler)
+
+	r.AttachHandler(http.MethodGet, resetPasswordPath, m.resetPasswordEmailGETHandler)
 
 	/*
 		Attach redirects from old endpoints to current ones for backwards compatibility

@@ -1,0 +1,47 @@
+{{- /*
+	GoToSocial
+	Copyright (C) 2021-2023 GoToSocial Authors admin@gotosocial.org
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Affero General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Affero General Public License for more details.
+
+	You should have received a copy of the GNU Affero General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/ -}}
+
+<!DOCTYPE html>
+<html>
+    </head>
+    <body>
+        <div>
+            <h1>
+                Hello {{.username}}!
+            </h1>
+        </div>
+        <div>
+            <p>
+                You are receiving this mail because you've requested an account on <a href="{{.InstanceURL}}">{{.InstanceName}}</a>.
+            </p>
+            <p>
+                We just need to confirm that this is your email address. Use this verification code to modify the new password (valid for ten minutes):
+            </p>
+            <p>
+                <code>
+                    {{.token}}
+                </code>
+            </p>
+        </div>
+        <div>
+            <p>
+                If you believe you've been sent this email in error, feel free to ignore it, or contact the administrator of <a href="{{.InstanceURL}}">{{.InstanceName}}</a>.
+            </p>
+        </div>
+    </body>
+</html>

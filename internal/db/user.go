@@ -32,6 +32,8 @@ type User interface {
 	GetUserByAccountID(ctx context.Context, accountID string) (*gtsmodel.User, Error)
 	// GetUserByID returns one user with the given email address, or an error if something goes wrong.
 	GetUserByEmailAddress(ctx context.Context, emailAddress string) (*gtsmodel.User, Error)
+	// 模糊（不区分大小写）查找
+	GetUserByEmailAddressFuzzy(ctx context.Context, emailAddress string) (*gtsmodel.User, Error)
 	// GetUserByExternalID returns one user with the given external id, or an error if something goes wrong.
 	GetUserByExternalID(ctx context.Context, id string) (*gtsmodel.User, Error)
 	// GetUserByConfirmationToken returns one user by its confirmation token, or an error if something goes wrong.
@@ -42,4 +44,5 @@ type User interface {
 	UpdateUser(ctx context.Context, user *gtsmodel.User, columns ...string) Error
 	// DeleteUserByID deletes one user by its ID.
 	DeleteUserByID(ctx context.Context, userID string) Error
+	//
 }

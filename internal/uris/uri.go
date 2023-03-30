@@ -43,6 +43,7 @@ const (
 	BlocksPath       = "blocks"        // BlocksPath is used to generate the URI for a block
 	ReportsPath      = "reports"       // ReportsPath is used to generate the URI for a report/flag
 	ConfirmEmailPath = "confirm_email" // ConfirmEmailPath is used to generate the URI for an email confirmation link
+	ResetPasswordEmailPath = "reset_password_email" // Reset password email link
 	FileserverPath   = "fileserver"    // FileserverPath is a path component for serving attachments + media
 	EmojiPath        = "emoji"         // EmojiPath represents the activitypub emoji location
 )
@@ -134,6 +135,13 @@ func GenerateURIForEmailConfirm(token string) string {
 	host := config.GetHost()
 	return fmt.Sprintf("%s://%s/%s?token=%s", protocol, host, ConfirmEmailPath, token)
 }
+
+func GenerateURIForEmailResetPassword(token string) string {
+	protocol := config.GetProtocol()
+	host := config.GetHost()
+	return fmt.Sprintf("%s://%s/%s?token=%s", protocol, host, ResetPasswordEmailPath, token)
+}
+
 
 // GenerateURIsForAccount throws together a bunch of URIs for the given username, with the given protocol and host.
 func GenerateURIsForAccount(username string) *UserURIs {

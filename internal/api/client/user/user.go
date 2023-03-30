@@ -26,10 +26,18 @@ import (
 )
 
 const (
+	// Params
+	Email = "email"
+	Token = "reset_password_token"
+
 	// BasePath is the base URI path for this module, minus the 'api' prefix
 	BasePath = "/v1/user"
 	// PasswordChangePath is the path for POSTing a password change request.
 	PasswordChangePath = BasePath + "/password_change"
+	// 发送修改用户密码的验证码
+	SendResetPasswordEmailPath = BasePath + "/send_reset_password_email"
+	// 验证修改密码的邮箱和验证码
+	VerifyResetPasswordToken = BasePath + "/verify_reset_password_token"
 )
 
 type Module struct {
@@ -44,4 +52,6 @@ func New(processor processing.Processor) *Module {
 
 func (m *Module) Route(attachHandler func(method string, path string, f ...gin.HandlerFunc) gin.IRoutes) {
 	attachHandler(http.MethodPost, PasswordChangePath, m.PasswordChangePOSTHandler)
+	attachHandler(http.MethodPost, SendResetPasswordEmailPath, m.SendResetPasswordEmailPostHandler)
+	attachHandler(http.MethodPost, VerifyResetPasswordToken, m.VerifyResetTokenPostHandler)
 }

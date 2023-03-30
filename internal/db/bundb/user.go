@@ -87,6 +87,24 @@ func (u *userDB) GetUserByEmailAddress(ctx context.Context, emailAddress string)
 	}, emailAddress)
 }
 
+func (u *userDB) GetUserByEmailAddressFuzzy(ctx context.Context, emailAddress string) (*gtsmodel.User, db.Error) {
+	return u.state.Caches.GTS.User().Load("Email", func() (*gtsmodel.User, error) {
+		var user gtsmodel.User
+
+		q := u.conn.
+			NewSelect().
+			Model(&user).
+			Relation("Account").
+			Where("? ilike ?", bun.Ident("user.email"), emailAddress)
+
+		if err := q.Scan(ctx); err != nil {
+			return nil, u.conn.ProcessError(err)
+		}
+
+		return &user, nil
+	}, emailAddress)
+}
+
 func (u *userDB) GetUserByExternalID(ctx context.Context, id string) (*gtsmodel.User, db.Error) {
 	return u.state.Caches.GTS.User().Load("ExternalID", func() (*gtsmodel.User, error) {
 		var user gtsmodel.User

@@ -35,3 +35,8 @@ type PasswordChangeRequest struct {
 	// required: true
 	NewPassword string `form:"new_password" json:"new_password" xml:"new_password" validation:"required"`
 }
+
+type SendResetPasswordEmailRequest struct {
+	Email              string `form:"email" json:"email" xml:"email" validation:"email"`
+	ResetPasswordToken string `form:"reset_password_token" json:"reset_password_token" xml:"reset_password_token" validation:"reset_password_token"`
+}
