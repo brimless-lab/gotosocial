@@ -45,7 +45,8 @@ func (p *processor) BookmarksGet(ctx context.Context, requestingAccount *gtsmode
 	for i, b := range bookmarks {
 		s, err := p.db.GetStatusByID(ctx, b.StatusID)
 		if err != nil {
-			return nil, gtserror.NewErrorInternalError(err)
+			continue
+			// return nil, gtserror.NewErrorInternalError(err)
 		}
 
 		visible, err := p.filter.StatusVisible(ctx, s, requestingAccount)
